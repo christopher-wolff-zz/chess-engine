@@ -15,7 +15,21 @@ public class Position {
 	private Piece[][] board;
 	
 	public Position(Piece[][] board) {
-		this.board = board;
+		this.board = new Piece[BOARD_WIDTH][BOARD_HEIGHT];
+		for (int i = 0; i < BOARD_WIDTH; i++) {
+			for (int j = 0; j < BOARD_HEIGHT; j++) {
+				this.board[i][j] = board[i][j];
+			}
+		}
+	}
+	
+	public Position(Position p) {
+		this.board = new Piece[BOARD_WIDTH][BOARD_HEIGHT];
+		for (int i = 0; i < BOARD_WIDTH; i++) {
+			for (int j = 0; j < BOARD_HEIGHT; j++) {
+				this.board[i][j] = p.getBoard()[i][j];
+			}
+		}
 	}
 	
 	public Position() {
@@ -65,11 +79,30 @@ public class Position {
 	}
 	
 	public Piece[][] getBoard() {
-		return board;
+		return board; // passed by reference!
 	}
 	
 	public void setBoard(Piece[][] board) {
 		this.board = board;
+	}
+	
+	public int value() {
+		int value = 0;
+		
+		for (int i = 0; i < BOARD_WIDTH; i++) {
+			for (int j = 0; j < BOARD_HEIGHT; j++) {
+				Piece p = board[i][j];
+				if (p != null) {
+					if (p.getColor() == Color.WHITE)
+						value += p.getValue();
+					else {
+						value -= p.getValue();
+					}
+				}
+			}
+		}
+		
+		return value;
 	}
 	
 	@Override

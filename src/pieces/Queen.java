@@ -10,9 +10,13 @@ import chess.Square;
 
 public class Queen extends Piece {
 
-	public Queen(Color color) {
+	public Queen(int color) {
 		super(color);
-		
+		value = 9;
+	}
+	
+	public Queen(Piece other) {
+		super(other);
 		value = 9;
 	}
 

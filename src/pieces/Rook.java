@@ -10,9 +10,13 @@ import chess.Square;
 
 public class Rook extends Piece {
 
-	public Rook(Color color) {
+	public Rook(int color) {
 		super(color);
-		
+		value = 5;
+	}
+	
+	public Rook(Piece other) {
+		super(other);
 		value = 5;
 	}
 

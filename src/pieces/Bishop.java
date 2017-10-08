@@ -10,9 +10,13 @@ import chess.Square;
 
 public class Bishop extends Piece {
 
-	public Bishop(Color color) {
+	public Bishop(int color) {
 		super(color);
-		
+		value = 3;
+	}
+	
+	public Bishop(Piece other) {
+		super(other);
 		value = 3;
 	}
 

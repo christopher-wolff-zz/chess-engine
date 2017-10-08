@@ -6,7 +6,17 @@ public class Move {
 	private Square destinSquare;
 	private Piece promotion;
 	private boolean enPassent;
-	private boolean castles;
+	private boolean castlesKingside;
+	private boolean castlesQueenside;
+	
+	public Move(Move other) {
+		this.originSquare = other.originSquare;
+		this.destinSquare = other.destinSquare;
+		this.promotion = other.promotion;
+		this.enPassent = other.enPassent;
+		this.castlesKingside = other.castlesKingside;
+		this.castlesQueenside = other.castlesQueenside;
+	}
 	
 	public Move(Square originSquare, Square destinSquare) {
 		this.originSquare = originSquare;
@@ -25,8 +35,10 @@ public class Move {
 		
 		if (moveEvent == MoveEvent.EN_PASSENT)
 			this.enPassent = true;
-		else if (moveEvent == MoveEvent.CASTLES)
-			this.castles = true;
+		else if (moveEvent == MoveEvent.CASTLES_KINGSIDE)
+			this.castlesKingside = true;
+		else if (moveEvent == MoveEvent.CASTLES_QUEENSIDE)
+			this.castlesQueenside = true;
 	}
 	
 	@Override
@@ -38,10 +50,36 @@ public class Move {
 			s.append(" = " + promotion);
 		if (enPassent)
 			s.append(" en passent");
-		if (castles)
-			s.append(" castles");
+		if (castlesKingside)
+			s.append(" castles kingside");
+		if (castlesQueenside)
+			s.append(" castles queenside");
 		
 		return s.toString();
+	}
+	
+	public Square getOriginSquare() {
+		return originSquare;
+	}
+	
+	public Square getDestinSquare() {
+		return destinSquare;
+	}
+	
+	public Piece getPromotion() {
+		return promotion;
+	}
+	
+	public boolean isEnPassent() {
+		return enPassent;
+	}
+	
+	public boolean isCastlesKingside() {
+		return castlesKingside;
+	}
+	
+	public boolean isCastlesQueenside() {
+		return castlesQueenside;
 	}
 	
 }

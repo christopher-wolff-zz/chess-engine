@@ -9,9 +9,13 @@ import chess.Square;
 
 public class Knight extends Piece {
 
-	public Knight(Color color) {
+	public Knight(int color) {
 		super(color);
-		
+		value = 3;
+	}
+	
+	public Knight(Piece other) {
+		super(other);
 		value = 3;
 	}
 

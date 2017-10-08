@@ -11,9 +11,13 @@ import chess.Square;
 
 public class Pawn extends Piece {
 
-	public Pawn(Color color) {
+	public Pawn(int color) {
 		super(color);
-		
+		value = 1;
+	}
+	
+	public Pawn(Piece other) {
+		super(other);
 		value = 1;
 	}
 

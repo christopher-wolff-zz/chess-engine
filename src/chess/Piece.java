@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public abstract class Piece {
 	
-	protected Color color;
+	protected int color;
 	protected int value;
 	
-	public Piece(Color color) {
+	public Piece(int color) {
 		this.color = color;
+	}
+	
+	public Piece(Piece other) {
+		this.color = other.color;
 	}
 	
 	/**
@@ -28,8 +32,12 @@ public abstract class Piece {
 	@Override
 	public abstract String toString();
 	
-	public Color getColor() {
+	public int getColor() {
 		return color;
+	}
+	
+	public int getValue() {
+		return value;
 	}
 	
 }
