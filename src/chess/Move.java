@@ -33,7 +33,7 @@ public class Move {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append(originSquare + " to " + destinSquare);
+		s.append(originSquare + "-" + destinSquare);
 		if (promotion != null)
 			s.append(" = " + promotion);
 		if (enPassent)

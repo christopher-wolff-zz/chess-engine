@@ -22,8 +22,10 @@ public class King extends Piece {
 			return "\u2654";
 		else if (color == Color.BLACK)
 			return "\u265A";
-		else
-			System.out.println("Invalid color for king: " + color);
+		else {
+			new Exception("Invalid color for king: " + color).printStackTrace();
+			System.exit(-1);
+		}
 		
 		return "";
 		
@@ -36,7 +38,7 @@ public class King extends Piece {
 		int col = square.getCol();
 		int row = square.getRow();
 		
-		Square[] targetSquares = new Square[]{new Square(col, row+1), new Square(col+1, row+1), new Square(col+1, row), new Square(col-1, row-1),
+		Square[] targetSquares = new Square[]{new Square(col, row+1), new Square(col+1, row+1), new Square(col+1, row), new Square(col+1, row-1),
 											  new Square(col, row-1), new Square(col-1, row-1), new Square(col-1, row), new Square(col-1, row+1)};
 		
 		for (Square targetSquare : targetSquares) {

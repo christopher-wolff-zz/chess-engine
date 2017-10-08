@@ -20,8 +20,10 @@ public class Knight extends Piece {
 			return "\u2658";
 		else if (color == Color.BLACK)
 			return "\u265E";
-		else
-			System.out.println("Invalid color for knight: " + color);
+		else {
+			new Exception("Invalid color for knight: " + color).printStackTrace();
+			System.exit(-1);
+		}
 		
 		return "";
 	}

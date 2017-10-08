@@ -80,7 +80,7 @@ public class Game {
 		Piece[][] board = position.getBoard();
 		for (int i = 0; i < Position.BOARD_WIDTH; i++) {
 			for (int j = 0; j < Position.BOARD_HEIGHT; j++) {
-				if (board[i][j] != null)
+				if (board[i][j] != null && board[i][j].getColor() == toMove)
 					moves.addAll(board[i][j].pseudoLegalMoves(board, new Square(i, j)));
 			}
 		}

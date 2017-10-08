@@ -31,6 +31,31 @@ public class Square {
 		return true;
 	}
 	
+	private String letterOf(int column) {
+		switch (column) {
+		case 0:
+			return "A";
+		case 1:
+			return "B";
+		case 2:
+			return "C";
+		case 3:
+			return "D";
+		case 4:
+			return "E";
+		case 5:
+			return "F";
+		case 6:
+			return "G";
+		case 7:
+			return "H";
+		default:
+			new Exception("Letter not found for column " + column).printStackTrace();
+			System.exit(-1);
+		}
+		return "";
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other == null)
@@ -47,7 +72,7 @@ public class Square {
 	
 	@Override
 	public String toString() {
-		return "(" + col + "," + row + ")";
+		return letterOf(col) + (row+1);
 	}
 	
 }
