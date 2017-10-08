@@ -1,28 +1,8 @@
 package chess;
 
-import pieces.Bishop;
-import pieces.Blank;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
+import java.util.ArrayList;
 
 public abstract class Piece {
-	
-	public static final Piece BLANK = new Blank(Color.NONE);
-	public static final Piece WHITE_PAWN = new Pawn(Color.WHITE);
-	public static final Piece WHITE_KNIGHT = new Knight(Color.WHITE);
-	public static final Piece WHITE_BISHOP = new Bishop(Color.WHITE);
-	public static final Piece WHITE_ROOK = new Rook(Color.WHITE);
-	public static final Piece WHITE_QUEEN = new Queen(Color.WHITE);
-	public static final Piece WHITE_KING = new King(Color.WHITE);
-	public static final Piece BLACK_PAWN = new Pawn(Color.BLACK);
-	public static final Piece BLACK_KNIGHT = new Knight(Color.BLACK);
-	public static final Piece BLACK_BISHOP = new Bishop(Color.BLACK);
-	public static final Piece BLACK_ROOK = new Rook(Color.BLACK);
-	public static final Piece BLACK_QUEEN = new Queen(Color.BLACK);
-	public static final Piece BLACK_KING = new King(Color.BLACK);
 	
 	protected Color color;
 	protected int value;
@@ -31,7 +11,25 @@ public abstract class Piece {
 		this.color = color;
 	}
 	
+	/**
+	 * Generates a list of pseudo legal moves for the piece. A move if considered pseudo legal, if
+	 * it is a move the piece could make regardless of whether:
+	 *     - castling is not allowed
+	 *     - it leaves the king in check
+	 *     - en passent is not allowed
+	 * @param position    The piece configuration of the current position
+	 * @param square      Square that the piece is currently on
+	 * @return ArrayList of pseudo legal moves
+	 */
+	public abstract ArrayList<Move> pseudoLegalMoves(Piece[][] board, Square square);
+	
+	public abstract String symbol();
+	
 	@Override
 	public abstract String toString();
+	
+	public Color getColor() {
+		return color;
+	}
 	
 }

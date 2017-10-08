@@ -1,7 +1,11 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Color;
+import chess.Move;
 import chess.Piece;
+import chess.Square;
 
 public class Rook extends Piece {
 
@@ -11,8 +15,7 @@ public class Rook extends Piece {
 		value = 5;
 	}
 
-	@Override
-	public String toString() {
+	public String symbol() {
 		if (color == Color.WHITE)
 			return "\u2656";
 		else if (color == Color.BLACK)
@@ -21,6 +24,19 @@ public class Rook extends Piece {
 			System.out.println("Invalid color for rook: " + color);
 		
 		return "";
+	}
+
+	public ArrayList<Move> pseudoLegalMoves(Piece[][] board, Square square) {
+		ArrayList<Move> moves = new ArrayList<Move>();
+		
+		
+		
+		return moves;
+	}
+
+	@Override
+	public String toString() {
+		return color + " rook";
 	}
 
 }
