@@ -1,7 +1,6 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import pieces.Pawn;
 
@@ -9,7 +8,7 @@ public class Game implements Cloneable {
 	
 	private Position position;
 	private int turn;
-	private int depthCount;
+	private int depth;
 	private int toMove;
 	private Move lastMove;
 	
@@ -23,7 +22,6 @@ public class Game implements Cloneable {
 	public Game() {
 		position = new Position();
 		turn = 1;
-		depthCount = 1;
 		toMove = Color.WHITE;
 		lastMove = null;
 		
@@ -31,12 +29,13 @@ public class Game implements Cloneable {
 		whiteCastlesQueenside = true;
 		blackCastlesKingside = true;
 		blackCastlesQueenside = true;
+		
+		depth = 1;
 	}
 	
-	public Game(Position position, int turn, int toMove, Move lastMove, boolean whiteCastlesKingside, boolean whiteCastlesQueenside, boolean blackCastlesKingside, boolean blackCastlesQueenside) {
+	public Game(Position position, int turn, int toMove, Move lastMove, boolean whiteCastlesKingside, boolean whiteCastlesQueenside, boolean blackCastlesKingside, boolean blackCastlesQueenside, int depth) {
 		this.position = position;
 		this.turn = turn;
-		depthCount = 1;
 		this.toMove = toMove;
 		this.lastMove = lastMove;
 		
@@ -44,37 +43,8 @@ public class Game implements Cloneable {
 		this.whiteCastlesQueenside = whiteCastlesQueenside;
 		this.blackCastlesKingside = blackCastlesKingside;
 		this.blackCastlesQueenside = blackCastlesQueenside;
-	}
-	
-	public void playRandomGame() {
-		while (! isOver() && turn < 100) {
-			System.out.println("Turn " + turn + ": ");
-			System.out.println(position);
-			
-			ArrayList<Move> lms = legalMoves();
-			if (lms.size() == 0) {
-				if (isInCheck(toMove)) {
-					if (toMove == Color.WHITE) {
-						System.out.println("Black wins");
-						return;
-					}
-					else if (toMove == Color.BLACK) {
-						System.out.println("White wins");
-						return;
-					}
-				}
-				else
-					System.out.println("Stalemate");
-				break;
-			}
-			Move nextMove = lms.get(new Random().nextInt(lms.size()));
-			
-			System.out.println("Move: " + lastMove);
-			System.out.println();
-			
-			move(nextMove);
-		}
-		System.out.println("Draw");
+		
+		this.depth = depth;
 	}
 	
 	public void move(Move m) {
@@ -141,7 +111,7 @@ public class Game implements Cloneable {
 			toMove = Color.WHITE;
 			turn++;
 		}
-		depthCount++;
+		depth++;
 	}
 	
 	public ArrayList<Move> legalMoves() {
@@ -278,7 +248,7 @@ public class Game implements Cloneable {
 		return Color.NONE;
 	}
 	
-	private boolean isInCheck(int c) {
+	public boolean isInCheck(int c) {
 		try {
 			Game continuation = (Game) this.clone();
 			continuation.setToMove(-c);
@@ -335,94 +305,59 @@ public class Game implements Cloneable {
 		return blackCastlesQueenside;
 	}
 	
+	public int getDepth() {
+		return depth;
+	}
+	
 	public Move getBestMove() {
 		return bestMove;
+	}
+	
+	public void setBestMove(Move bestMove) {
+		this.bestMove = bestMove;
 	}
 	
 	public void setToMove(int c) {
 		toMove = c;
 	}
 	
-	public void resetDepthCount() {
-		this.depthCount = 1;
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	
+	public ArrayList<Game> children() {
+		ArrayList<Game> games = new ArrayList<Game>();
+		ArrayList<Move> legalMoves = legalMoves();
+		
+		if (legalMoves.size() == 0)
+			return null;
+		
+		try {
+			for (Move m : legalMoves) {
+				Game continuation = (Game) this.clone();
+				continuation.move(m);
+				games.add(continuation);
+			}
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return games;
 	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		if (this.getLastMove() != null)
 			return new Game(new Position(this.getPosition()), this.getTurn(), this.getToMove(), this.getLastMove(),
-					        this.isWhiteCastlesKingside(), this.isWhiteCastlesQueenside(), this.isBlackCastlesKingside(), this.isBlackCastlesQueenside());
+					        this.isWhiteCastlesKingside(), this.isWhiteCastlesQueenside(), this.isBlackCastlesKingside(), this.isBlackCastlesQueenside(), this.depth);
 		else
 			return new Game(new Position(this.getPosition()), this.getTurn(), this.getToMove(), null,
-			        this.isWhiteCastlesKingside(), this.isWhiteCastlesQueenside(), this.isBlackCastlesKingside(), this.isBlackCastlesQueenside());
+			        this.isWhiteCastlesKingside(), this.isWhiteCastlesQueenside(), this.isBlackCastlesKingside(), this.isBlackCastlesQueenside(), this.depth);
 
 	}
 	
 	public int eval() {
 		return position.eval();
-	}
-	
-	public int minimax(int alpha, int beta, int maxDepth) {
-		System.out.println(depthCount);
-		if (depthCount > maxDepth)
-			return eval();
-		
-		ArrayList<Move> legalMoves = legalMoves();
-		if (legalMoves.size() == 0) {
-			if (isInCheck(toMove))
-				return -10000*toMove; // Checkmate
-			else
-				return 0; // Stalemate
-		}
-		
-		// Maximizer
-		if (toMove == Color.WHITE) {
-			int result;
-			for (Move m : legalMoves) {
-				try {
-					Game continuation = (Game) this.clone();
-					continuation.move(m);
-					result = continuation.minimax(alpha, beta, maxDepth);
-					if (result > alpha) {
-						alpha = result;
-						bestMove = m;
-					}
-					if (alpha >= beta) {
-						return alpha;
-					}
-					return alpha;
-				}
-				catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		// Minimizer
-		if (toMove == Color.BLACK) {
-			int result;
-			for (Move m : legalMoves) {
-				try {
-					Game continuation = (Game) this.clone();
-					continuation.move(m);
-					result = continuation.minimax(alpha, beta, maxDepth);
-					if (result < beta) {
-						beta = result;
-						bestMove = m;
-					}
-					if (beta <= alpha) {
-						return beta;
-					}
-					return beta;
-				}
-				catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		System.out.println("Minimax returned 0 unexpectedly at depth " + depthCount);
-		return 0;
 	}
 	
 }
