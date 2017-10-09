@@ -43,11 +43,11 @@ public class Bishop extends Piece {
 		// Right and up diagonal - column increasing and row increasing
 		for (int targetCol = col+1, targetRow = row+1; targetCol < Position.BOARD_WIDTH && targetRow < Position.BOARD_HEIGHT; targetCol++, targetRow++) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -55,11 +55,11 @@ public class Bishop extends Piece {
 		// Right and down diagonal - column increasing and row decreasing
 		for (int targetCol = col+1, targetRow = row-1; targetCol < Position.BOARD_WIDTH && targetRow >= 0; targetCol++, targetRow--) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -67,11 +67,11 @@ public class Bishop extends Piece {
 		// Left and up diagonal - column decreasing and row increasing
 		for (int targetCol = col-1, targetRow = row+1; targetCol >= 0 && targetRow < Position.BOARD_HEIGHT; targetCol--, targetRow++) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -79,11 +79,11 @@ public class Bishop extends Piece {
 		// Left and down diagonal - column decreasing and row decreasing
 		for (int targetCol = col-1, targetRow = row-1; targetCol >= 0 && targetRow >= 0; targetCol--, targetRow--) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}

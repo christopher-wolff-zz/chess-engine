@@ -9,6 +9,7 @@ public class Game implements Cloneable {
 	
 	private Position position;
 	private int turn;
+	private int depthCount;
 	private int toMove;
 	private Move lastMove;
 	
@@ -17,9 +18,12 @@ public class Game implements Cloneable {
 	private boolean blackCastlesKingside;
 	private boolean blackCastlesQueenside;
 	
+	private Move bestMove;
+	
 	public Game() {
 		position = new Position();
 		turn = 1;
+		depthCount = 1;
 		toMove = Color.WHITE;
 		lastMove = null;
 		
@@ -32,6 +36,7 @@ public class Game implements Cloneable {
 	public Game(Position position, int turn, int toMove, Move lastMove, boolean whiteCastlesKingside, boolean whiteCastlesQueenside, boolean blackCastlesKingside, boolean blackCastlesQueenside) {
 		this.position = position;
 		this.turn = turn;
+		depthCount = 1;
 		this.toMove = toMove;
 		this.lastMove = lastMove;
 		
@@ -136,9 +141,10 @@ public class Game implements Cloneable {
 			toMove = Color.WHITE;
 			turn++;
 		}
+		depthCount++;
 	}
 	
-	private ArrayList<Move> legalMoves() {
+	public ArrayList<Move> legalMoves() {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		outer:
@@ -147,10 +153,10 @@ public class Game implements Cloneable {
 			if (m.isCastlesKingside()) {
 				Move testMove;
 				if (toMove == Color.WHITE) {
-					testMove = new Move(new Square(4, 0), new Square(5, 0)); // king moves one square to the right
+					testMove = new Move(m.getPiece(), new Square(4, 0), new Square(5, 0)); // king moves one square to the right
 				}
 				else {
-					testMove = new Move(new Square(4, 7), new Square(5, 7)); // king moves one square to the right
+					testMove = new Move(m.getPiece(), new Square(4, 7), new Square(5, 7)); // king moves one square to the right
 				}
 				try {
 					Game continuation = (Game) this.clone();
@@ -165,12 +171,12 @@ public class Game implements Cloneable {
 			else if (m.isCastlesQueenside()) {
 				Move[] testMoves = new Move[2];
 				if (toMove == Color.WHITE) {
-					testMoves[0] = new Move(new Square(4, 0), new Square(3, 0)); // king moves one square to the left
-					testMoves[1] = new Move(new Square(4, 0), new Square(2, 0)); // king moves two squares to the left
+					testMoves[0] = new Move(m.getPiece(), new Square(4, 0), new Square(3, 0)); // king moves one square to the left
+					testMoves[1] = new Move(m.getPiece(), new Square(4, 0), new Square(2, 0)); // king moves two squares to the left
 				}
 				else {
-					testMoves[0] = new Move(new Square(4, 7), new Square(3, 7)); // king moves one square to the left
-					testMoves[1]= new Move(new Square(4, 7), new Square(2, 7)); // king moves two squares to the left
+					testMoves[0] = new Move(m.getPiece(), new Square(4, 7), new Square(3, 7)); // king moves one square to the left
+					testMoves[1]= new Move(m.getPiece(), new Square(4, 7), new Square(2, 7)); // king moves two squares to the left
 				}
 				try {
 					for (Move m1 : testMoves) {
@@ -264,15 +270,15 @@ public class Game implements Cloneable {
 		return moves;
 	}
 	
-	public int winner() {
-		if (position.value() > 1000)
+	private int winner() {
+		if (eval() > 1000)
 			return Color.WHITE;
-		if (position.value() < -1000)
+		if (eval() < -1000)
 			return Color.BLACK;
 		return Color.NONE;
 	}
 	
-	public boolean isInCheck(int c) {
+	private boolean isInCheck(int c) {
 		try {
 			Game continuation = (Game) this.clone();
 			continuation.setToMove(-c);
@@ -329,8 +335,16 @@ public class Game implements Cloneable {
 		return blackCastlesQueenside;
 	}
 	
+	public Move getBestMove() {
+		return bestMove;
+	}
+	
 	public void setToMove(int c) {
 		toMove = c;
+	}
+	
+	public void resetDepthCount() {
+		this.depthCount = 1;
 	}
 	
 	@Override
@@ -342,6 +356,73 @@ public class Game implements Cloneable {
 			return new Game(new Position(this.getPosition()), this.getTurn(), this.getToMove(), null,
 			        this.isWhiteCastlesKingside(), this.isWhiteCastlesQueenside(), this.isBlackCastlesKingside(), this.isBlackCastlesQueenside());
 
+	}
+	
+	public int eval() {
+		return position.eval();
+	}
+	
+	public int minimax(int alpha, int beta, int maxDepth) {
+		System.out.println(depthCount);
+		if (depthCount > maxDepth)
+			return eval();
+		
+		ArrayList<Move> legalMoves = legalMoves();
+		if (legalMoves.size() == 0) {
+			if (isInCheck(toMove))
+				return -10000*toMove; // Checkmate
+			else
+				return 0; // Stalemate
+		}
+		
+		// Maximizer
+		if (toMove == Color.WHITE) {
+			int result;
+			for (Move m : legalMoves) {
+				try {
+					Game continuation = (Game) this.clone();
+					continuation.move(m);
+					result = continuation.minimax(alpha, beta, maxDepth);
+					if (result > alpha) {
+						alpha = result;
+						bestMove = m;
+					}
+					if (alpha >= beta) {
+						return alpha;
+					}
+					return alpha;
+				}
+				catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// Minimizer
+		if (toMove == Color.BLACK) {
+			int result;
+			for (Move m : legalMoves) {
+				try {
+					Game continuation = (Game) this.clone();
+					continuation.move(m);
+					result = continuation.minimax(alpha, beta, maxDepth);
+					if (result < beta) {
+						beta = result;
+						bestMove = m;
+					}
+					if (beta <= alpha) {
+						return beta;
+					}
+					return beta;
+				}
+				catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		System.out.println("Minimax returned 0 unexpectedly at depth " + depthCount);
+		return 0;
 	}
 	
 }

@@ -52,7 +52,7 @@ public class King extends Piece {
 			int targetCol = targetSquare.getCol();
 			int targetRow = targetSquare.getRow();
 			if (board[targetCol][targetRow] == null || board[targetCol][targetRow].getColor() != color) // target is empty or occupied by opponent
-				moves.add(new Move(new Square(square), new Square(targetSquare)));
+				moves.add(new Move(this, new Square(square), new Square(targetSquare)));
 
 		}
 		
@@ -60,23 +60,23 @@ public class King extends Piece {
 		// Kingside
 		if (color == Color.WHITE) {
 			if ((col == 4 && row == 0) && (board[5][0] == null) && (board[6][0] == null) && (board[7][0] instanceof Rook) && (board[7][0].getColor() == Color.WHITE)) {
-				moves.add(new Move(new Square(square), new Square(6, 0), MoveEvent.CASTLES_KINGSIDE));
+				moves.add(new Move(this, new Square(square), new Square(6, 0), MoveEvent.CASTLES_KINGSIDE));
 			}
 		}
 		else if (color == Color.BLACK) {
 			if ((col == 4 && row == 7) && (board[5][7] == null) && (board[6][7] == null) && (board[7][7] instanceof Rook) && (board[7][7].getColor() == Color.BLACK)) {
-				moves.add(new Move(new Square(square), new Square(6, 7), MoveEvent.CASTLES_KINGSIDE));
+				moves.add(new Move(this, new Square(square), new Square(6, 7), MoveEvent.CASTLES_KINGSIDE));
 			}
 		}
 		// Queenside
 		if (color == Color.WHITE) {
 			if ((col == 4 && row == 0) && (board[3][0] == null) && (board[2][0] == null) && (board[1][0] == null) && (board[0][0] instanceof Rook) && (board[0][0].getColor() == Color.WHITE)) {
-				moves.add(new Move(new Square(square), new Square(2, 0), MoveEvent.CASTLES_QUEENSIDE));
+				moves.add(new Move(this, new Square(square), new Square(2, 0), MoveEvent.CASTLES_QUEENSIDE));
 			}
 		}
 		else if (color == Color.BLACK) {
 			if ((col == 4 && row == 7) && (board[3][7] == null) && (board[2][7] == null) && (board[1][7] == null) && (board[0][7] instanceof Rook) && (board[0][7].getColor() == Color.BLACK)) {
-				moves.add(new Move(new Square(square), new Square(2, 7), MoveEvent.CASTLES_QUEENSIDE));
+				moves.add(new Move(this, new Square(square), new Square(2, 7), MoveEvent.CASTLES_QUEENSIDE));
 			}
 		}
 		

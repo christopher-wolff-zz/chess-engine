@@ -43,11 +43,11 @@ public class Queen extends Piece {
 		// Forward - row increasing
 		for (int targetRow = row+1; targetRow < Position.BOARD_HEIGHT; targetRow++) {
 			if (board[col][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(col, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 			}
 			else {
 				if (board[col][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(col, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 				break;
 			}
 		}
@@ -55,11 +55,11 @@ public class Queen extends Piece {
 		// Backward - row decreasing
 		for (int targetRow = row-1; targetRow >= 0; targetRow--) {
 			if (board[col][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(col, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 			}
 			else {
 				if (board[col][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(col, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 				break;
 			}
 		}
@@ -67,11 +67,11 @@ public class Queen extends Piece {
 		// Right - column increasing
 		for (int targetCol = col+1; targetCol < Position.BOARD_WIDTH; targetCol++) {
 			if (board[targetCol][row] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, row)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 			}
 			else {
 				if (board[targetCol][row].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, row)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 				break;
 			}
 		}
@@ -79,11 +79,11 @@ public class Queen extends Piece {
 		// Left - column decreasing
 		for (int targetCol = col-1; targetCol >= 0; targetCol--) {
 			if (board[targetCol][row] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, row)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 			}
 			else {
 				if (board[targetCol][row].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, row)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 				break;
 			}
 		}
@@ -91,11 +91,11 @@ public class Queen extends Piece {
 		// Right and up diagonal - column increasing and row increasing
 		for (int targetCol = col+1, targetRow = row+1; targetCol < Position.BOARD_WIDTH && targetRow < Position.BOARD_HEIGHT; targetCol++, targetRow++) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -103,11 +103,11 @@ public class Queen extends Piece {
 		// Right and down diagonal - column increasing and row decreasing
 		for (int targetCol = col+1, targetRow = row-1; targetCol < Position.BOARD_WIDTH && targetRow >= 0; targetCol++, targetRow--) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -115,11 +115,11 @@ public class Queen extends Piece {
 		// Left and up diagonal - column decreasing and row increasing
 		for (int targetCol = col-1, targetRow = row+1; targetCol >= 0 && targetRow < Position.BOARD_HEIGHT; targetCol--, targetRow++) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}
@@ -127,11 +127,11 @@ public class Queen extends Piece {
 		// Left and down diagonal - column decreasing and row decreasing
 		for (int targetCol = col-1, targetRow = row-1; targetCol >= 0 && targetRow >= 0; targetCol--, targetRow--) {
 			if (board[targetCol][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 			}
 			else {
 				if (board[targetCol][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 				break;
 			}
 		}

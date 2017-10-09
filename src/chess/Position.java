@@ -86,7 +86,7 @@ public class Position {
 		this.board = board;
 	}
 	
-	public int value() {
+	public int eval() {
 		int value = 0;
 		
 		for (int i = 0; i < BOARD_WIDTH; i++) {

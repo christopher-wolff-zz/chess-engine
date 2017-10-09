@@ -42,11 +42,11 @@ public class Rook extends Piece {
 		// Forward - row increasing
 		for (int targetRow = row+1; targetRow < Position.BOARD_HEIGHT; targetRow++) {
 			if (board[col][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(col, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 			}
 			else {
 				if (board[col][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(col, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 				break;
 			}
 		}
@@ -54,11 +54,11 @@ public class Rook extends Piece {
 		// Backward - row decreasing
 		for (int targetRow = row-1; targetRow >= 0; targetRow--) {
 			if (board[col][targetRow] == null) {
-				moves.add(new Move(new Square(square), new Square(col, targetRow)));
+				moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 			}
 			else {
 				if (board[col][targetRow].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(col, targetRow)));
+					moves.add(new Move(this, new Square(square), new Square(col, targetRow)));
 				break;
 			}
 		}
@@ -66,11 +66,11 @@ public class Rook extends Piece {
 		// Right - column increasing
 		for (int targetCol = col+1; targetCol < Position.BOARD_WIDTH; targetCol++) {
 			if (board[targetCol][row] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, row)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 			}
 			else {
 				if (board[targetCol][row].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, row)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 				break;
 			}
 		}
@@ -78,11 +78,11 @@ public class Rook extends Piece {
 		// Left - column decreasing
 		for (int targetCol = col-1; targetCol >= 0; targetCol--) {
 			if (board[targetCol][row] == null) {
-				moves.add(new Move(new Square(square), new Square(targetCol, row)));
+				moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 			}
 			else {
 				if (board[targetCol][row].getColor() != color)
-					moves.add(new Move(new Square(square), new Square(targetCol, row)));
+					moves.add(new Move(this, new Square(square), new Square(targetCol, row)));
 				break;
 			}
 		}

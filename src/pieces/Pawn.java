@@ -48,13 +48,13 @@ public class Pawn extends Piece {
 			int sfTargetRow = row+1;
 			if (board[sfTargetCol][sfTargetRow] == null) { // destination square has to be empty
 				if (row != 6) { // not about to promote
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow)));
 				}
 				else { // about to promote
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Knight(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Bishop(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Rook(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Queen(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Knight(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Bishop(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Rook(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Queen(color)));
 				}
 			}
 			// Target square: double forward move (df)
@@ -64,7 +64,7 @@ public class Pawn extends Piece {
 				int inBetweenCol = col;
 				int inBetweenRow = row+1;
 				if (board[inBetweenCol][inBetweenRow] == null && board[dfTargetCol][dfTargetRow] == null) { // if both squares are empty
-					moves.add(new Move(new Square(square), new Square(dfTargetCol, dfTargetRow)));
+					moves.add(new Move(this, new Square(square), new Square(dfTargetCol, dfTargetRow)));
 				}
 			}
 			// Target square: diagonally ahead, left and right
@@ -75,13 +75,13 @@ public class Pawn extends Piece {
 				if (!(targetCol < 0 || targetCol > Position.BOARD_WIDTH-1)) {
 					if (board[targetCol][targetRow] != null && board[targetCol][targetRow].getColor() != color) { // has to be of opposite color to be captured
 						if (row != 6) { // not about to promote
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 						}
 						else { // about to promote
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Knight(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Bishop(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Rook(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Queen(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Knight(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Bishop(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Rook(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Queen(color)));
 						}
 					}
 				}
@@ -89,10 +89,10 @@ public class Pawn extends Piece {
 			// En passent
 			if (row == 4) {
 				if (col != 0 && board[col-1][row] instanceof Pawn && board[col-1][row].getColor() != color) {
-					moves.add(new Move(new Square(square), new Square(col-1, row+1), MoveEvent.EN_PASSENT));
+					moves.add(new Move(this, new Square(square), new Square(col-1, row+1), MoveEvent.EN_PASSENT));
 				}
 				if (col != Position.BOARD_WIDTH-1 && board[col+1][row] instanceof Pawn && board[col+1][row].getColor() != color) {
-					moves.add(new Move(new Square(square), new Square(col+1, row+1), MoveEvent.EN_PASSENT));
+					moves.add(new Move(this, new Square(square), new Square(col+1, row+1), MoveEvent.EN_PASSENT));
 				}
 			}
 		}
@@ -103,13 +103,13 @@ public class Pawn extends Piece {
 			int sfTargetRow = row-1;
 			if (board[sfTargetCol][sfTargetRow] == null) { // destination square has to be empty
 				if (row != 1) { // not about to promote
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow)));
 				}
 				else { // about to promote
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Knight(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Bishop(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Rook(color)));
-					moves.add(new Move(new Square(square), new Square(sfTargetCol, sfTargetRow), new Queen(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Knight(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Bishop(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Rook(color)));
+					moves.add(new Move(this, new Square(square), new Square(sfTargetCol, sfTargetRow), new Queen(color)));
 				}
 			}
 			// Target square: double forward move (df)
@@ -119,7 +119,7 @@ public class Pawn extends Piece {
 				int inBetweenCol = col;
 				int inBetweenRow = row-1;
 				if (board[inBetweenCol][inBetweenRow] == null && board[dfTargetCol][dfTargetRow] == null) { // if both squares are empty
-					moves.add(new Move(new Square(square), new Square(dfTargetCol, dfTargetRow)));
+					moves.add(new Move(this, new Square(square), new Square(dfTargetCol, dfTargetRow)));
 				}
 			}
 			// Target square: diagonally ahead, left and right
@@ -130,13 +130,13 @@ public class Pawn extends Piece {
 				if (!(targetCol < 0 || targetCol > Position.BOARD_WIDTH-1)) {
 					if (board[targetCol][targetRow] != null && board[targetCol][targetRow].getColor() != color) { // has to be of opposite color to be captured
 						if (row != 1) { // not about to promote
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow)));
 						}
 						else { // about to promote
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Knight(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Bishop(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Rook(color)));
-							moves.add(new Move(new Square(square), new Square(targetCol, targetRow), new Queen(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Knight(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Bishop(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Rook(color)));
+							moves.add(new Move(this, new Square(square), new Square(targetCol, targetRow), new Queen(color)));
 						}
 					}
 				}
@@ -144,10 +144,10 @@ public class Pawn extends Piece {
 			// En passent
 			if (row == 3) {
 				if (col != 0 && board[col-1][row] instanceof Pawn && board[col-1][row].getColor() != color) {
-					moves.add(new Move(new Square(square), new Square(col-1, row-1), MoveEvent.EN_PASSENT));
+					moves.add(new Move(this, new Square(square), new Square(col-1, row-1), MoveEvent.EN_PASSENT));
 				}
 				if (col != Position.BOARD_WIDTH-1 && board[col+1][row] instanceof Pawn && board[col+1][row].getColor() != color) {
-					moves.add(new Move(new Square(square), new Square(col+1, row-1), MoveEvent.EN_PASSENT));
+					moves.add(new Move(this, new Square(square), new Square(col+1, row-1), MoveEvent.EN_PASSENT));
 				}
 			}
 		}

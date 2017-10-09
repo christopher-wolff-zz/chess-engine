@@ -2,6 +2,7 @@ package chess;
 
 public class Move {
 	
+	private Piece piece;
 	private Square originSquare;
 	private Square destinSquare;
 	private Piece promotion;
@@ -9,7 +10,8 @@ public class Move {
 	private boolean castlesKingside;
 	private boolean castlesQueenside;
 	
-	public Move(Move other) {
+	public Move(Piece piece, Move other) {
+		this.piece = piece;
 		this.originSquare = other.originSquare;
 		this.destinSquare = other.destinSquare;
 		this.promotion = other.promotion;
@@ -18,18 +20,21 @@ public class Move {
 		this.castlesQueenside = other.castlesQueenside;
 	}
 	
-	public Move(Square originSquare, Square destinSquare) {
+	public Move(Piece piece, Square originSquare, Square destinSquare) {
+		this.piece = piece;
 		this.originSquare = originSquare;
 		this.destinSquare = destinSquare;
 	}
 	
-	public Move(Square originSquare, Square destinSquare, Piece promotion) {
+	public Move(Piece piece, Square originSquare, Square destinSquare, Piece promotion) {
+		this.piece = piece;
 		this.originSquare = originSquare;
 		this.destinSquare = destinSquare;
 		this.promotion = promotion;
 	}
 	
-	public Move(Square originSquare, Square destinSquare, MoveEvent moveEvent) {
+	public Move(Piece piece, Square originSquare, Square destinSquare, MoveEvent moveEvent) {
+		this.piece = piece;
 		this.originSquare = originSquare;
 		this.destinSquare = destinSquare;
 		
@@ -45,7 +50,7 @@ public class Move {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append(originSquare + "-" + destinSquare);
+		s.append(piece.symbol() + originSquare + "-" + destinSquare);
 		if (promotion != null)
 			s.append(" = " + promotion);
 		if (enPassent)
@@ -56,6 +61,10 @@ public class Move {
 			s.append(" castles queenside");
 		
 		return s.toString();
+	}
+	
+	public Piece getPiece() {
+		return piece;
 	}
 	
 	public Square getOriginSquare() {

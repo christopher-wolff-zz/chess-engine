@@ -48,7 +48,7 @@ public class Knight extends Piece {
 			int targetCol = targetSquare.getCol();
 			int targetRow = targetSquare.getRow();
 			if (board[targetCol][targetRow] == null || board[targetCol][targetRow].getColor() != color) // target is empty or occupied by opponent
-				moves.add(new Move(new Square(square), new Square(targetSquare)));
+				moves.add(new Move(this, new Square(square), new Square(targetSquare)));
 
 		}
 		
