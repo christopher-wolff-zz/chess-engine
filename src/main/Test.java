@@ -14,7 +14,7 @@ public class Test {
 		Game g = new Game();
 		ChessEngine ce = new ChessEngine();
 		
-		int depth = 4;
+		int depth = 5;
 		
 		while (true) {
 			// Check if game is over
